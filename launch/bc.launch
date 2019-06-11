@@ -1,0 +1,8 @@
+<launch>
+  <node pkg="mika" name="camera" type="camera_node.py" output="screen" />
+  <node pkg="mika" name="control" type="control_node.py" output="screen" />
+  <node pkg="mika" name="agent" type="bc_node.py" output="screen">
+    <param name="load_model" type="string" value="/home/ubuntu/models/bc/model_weights.h5" />
+  </node>
+</launch>
+

@@ -1,0 +1,51 @@
+---
+- hosts: mika
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  tasks:
+    - name: Add apt repository
+      apt_repository:
+        repo: deb http://packages.ros.org/ros/ubuntu xenial main
+        state: present
+    - name: Add key to keyserver
+      apt_key:
+        keyserver: hkp://ha.pool.sks-keyservers.net:80
+        id: 421C365BD9FF1F717815A3895523BAEEB01FA116
+        state: present
+    - name: Update package lists
+      apt:
+        update_cache: true
+    - name: Install ros.
+      apt:
+        name: ros-kinetic-ros-base
+        state: present
+    - name: Rosdep update
+      shell: |
+        rosdep init
+        rosdep update
+    - name: Source ros in bashrc
+      lineinfile: dest=~/.bashrc regexp="^source \/opt\/ros\/kinetic\/setup.bash" line="source /opt/ros/kinetic/setup.bash"
+    - name: Install python-rosinstall
+      apt:
+        name: python-rosinstall
+        state: present
+    - name: Install python-rosinstall-generator
+      apt:
+        name: python-rosinstall-generator
+        state: present
+    - name: Install python-wstool
+      apt:
+        name: python-wstool
+        state: present
+    - name: Install build-essential
+      apt:
+        name: build-essential
+        state: present
+
+
+
+
+
+
+
